@@ -2,7 +2,8 @@
 CREATE TABLE "user" (
     "id" SERIAL NOT NULL,
     "username" TEXT NOT NULL,
-    "password_hash" TEXT NOT NULL,
+    "passwordHash" TEXT NOT NULL,
+    "salt" TEXT NOT NULL,
     "role" TEXT NOT NULL DEFAULT 'user',
 
     CONSTRAINT "user_pkey" PRIMARY KEY ("id")
