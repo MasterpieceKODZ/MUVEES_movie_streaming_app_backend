@@ -18,7 +18,7 @@ export async function signupAuth(req: Request, res: Response, next: any) {
 	}
 
 	// check if the username is taken by another user
-	const isUserNameTaken = await prismaClient.user.findFirst({
+	const userName = await prismaClient.user.findFirst({
 		where: {
 			username: req.body.username,
 		},
