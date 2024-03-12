@@ -130,10 +130,7 @@ dist
 .pnp.*
 
 
-# DB seed
-
-**/seed_db
 
 # build output 
 
-**/dist/*
+./dist

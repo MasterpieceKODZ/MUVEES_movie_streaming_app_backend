@@ -1,42 +1,23 @@
 import prismaClient from "../client.js";
-import crypto, { pbkdf2Sync } from "crypto";
+import { validateRequestBody } from "../utils/auth/validate.request.body.js";
+import { hashPassword } from "../utils/auth/hash.password.js";
+import { isUsernameTaken } from "../utils/auth/username.availability.js";
 export async function signupAuth(req, res, next) {
-    console.log("creating new user...");
-    // return an error code if username or password is not provided
-    if (!req.body.username || !req.body.password) {
-        res.status(400).send("faulty username or password");
-        return;
+    const isRequestBodyValid = await validateRequestBody(req.body.username, req.body.password);
+    if (!isRequestBodyValid) {
+        res.status(400).send("invalid username or password");
     }
-    // return an error code if username contains invalid characters
-    if (/[^a-zA-Z0-9_@$+]/gi.test(req.body.username)) {
-        res.status(400).send("your username username contains invalid characters");
-        return;
-    }
-    // check if the username is taken by another user
-    const isUserNameTaken = await prismaClient.user.findFirst({
-        where: {
-            username: req.body.username,
-        },
-    });
-    if ((isUserNameTaken === null || isUserNameTaken === void 0 ? void 0 : isUserNameTaken.username) === req.body.username) {
+    if (await isUsernameTaken(req.body.username)) {
         res.status(400).send("username is taken by another user");
-        return;
     }
-    // generate salt with which password will be hashed.
-    const generatedPasswordSalt = crypto
-        .randomBytes(256)
-        .toString("base64")
-        .replace(/\+/g, "x") // replace all + with x
-        .replace(/\s/g, "v"); // replace all space with v
-    // hash password
-    const hashedPassword = pbkdf2Sync(req.body.password, generatedPasswordSalt, 10000, 1028, "sha512").toString("hex");
+    const hashedPasswordAndSalt = await hashPassword(req.body.password);
     // create a new user record in database
     try {
         const createdUser = await prismaClient.user.create({
             data: {
                 username: req.body.username,
-                passwordHash: hashedPassword,
-                salt: generatedPasswordSalt,
+                passwordHash: hashedPasswordAndSalt.hashedPassword,
+                salt: hashedPasswordAndSalt.salt,
                 role: "user",
             },
         });
@@ -46,8 +27,6 @@ export async function signupAuth(req, res, next) {
         }));
     }
     catch (err) {
-        console.log("error in create account");
-        console.error(err);
         res.status(500).send("INTERNAL_SEVER_ERROR");
     }
 }
