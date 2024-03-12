@@ -27,15 +27,15 @@ model user {
 
 model movie {
   id Int @id @default(autoincrement())
-  title String
-  summary String
+  title String @db.VarChar(40)
+  summary String @db.VarChar(100)
   videoUrl String @unique
   coverImageUrl String @unique
   numberOfStreams Int
   genres String[]
   mainCasts String[]
-  releaseYear String
-  countryOfOrigin String
+  releaseYear String @db.VarChar(4)
+  countryOfOrigin String @db.VarChar(20)
   watchedBy user[]
 
   @@index([videoUrl])
