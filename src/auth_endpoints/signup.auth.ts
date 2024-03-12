@@ -1,37 +1,43 @@
 import { Request, Response } from "express";
-import prismaClient from "../client.js";
-import crypto, { pbkdf2, pbkdf2Sync } from "crypto";
-import { validateRequestBody } from "../utils/auth/validate.request.body.js";
-import { hashPassword } from "../utils/auth/hash.password.js";
-import { isUsernameTaken } from "../utils/auth/username.availability.js";
 import { createNewUser } from "../utils/auth/create.new.user.js";
+import {
+	isUsernameTaken,
+	validateRequestBody,
+} from "../utils/auth/validate.request.body.js";
 
-export async function signupAuth(req: Request, res: Response, next: any) {
-	const isRequestBodyValid = await validateRequestBody(
-		req.body.username,
-		req.body.password,
-	);
+export async function signupAuth(req: Request, res: Response) {
+	const [isRequestBodyValid, usernameTaken] = await Promise.all([
+		validateRequestBody(req.body.username, req.body.password),
+		isUsernameTaken(req.body.username),
+	]);
 
 	if (!isRequestBodyValid) {
 		res.status(400).send("invalid username or password");
+
+		return;
 	}
 
-	if (await isUsernameTaken(req.body.username)) {
+	console.log("still running...");
+
+	if (usernameTaken) {
 		res.status(400).send("username is taken by another user");
-	}
 
-	const hashedPasswordAndSalt = await hashPassword(req.body.password);
+		return;
+	}
 
 	try {
+		console.log("create user attempted");
+
 		const createUser = await createNewUser(
 			req.body.username,
-			hashedPasswordAndSalt.hashedPassword,
-			hashedPasswordAndSalt.salt,
+			req.body.password,
 		);
 
 		res.send(
 			JSON.stringify({ username: createUser.username, role: createUser.role }),
 		);
+
+		return;
 	} catch (err) {
 		res.status(500).send("INTERNAL_SEVER_ERROR");
 	}
