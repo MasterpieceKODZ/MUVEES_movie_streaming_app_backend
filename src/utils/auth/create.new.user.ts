@@ -13,11 +13,9 @@ export async function createNewUser(username: string, password: string) {
 		},
 	});
 
-	if (createdUser.id) {
-		return createdUser;
-	} else {
-		throw new Error("CREATE_USER_FAILED");
-	}
+	if (!createdUser.id) throw new Error("CREATE_USER_FAILED");
+
+	return createdUser;
 }
 
 export async function hashPassword(

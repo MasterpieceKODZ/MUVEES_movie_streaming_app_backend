@@ -6,8 +6,12 @@ export async function validateRequestBody(
 ): Promise<boolean> {
 	if (!username || !password) return false;
 
-	// return an false if username contains invalid characters
-	if (/[^a-zA-Z0-9_@$+]/gi.test(username)) return false;
+	// return an false if username or password contains invalid characters
+	if (
+		/[^a-zA-Z0-9_@$+]/gi.test(username) ||
+		/[^a-zA-Z0-9_@$+]/gi.test(password)
+	)
+		return false;
 
 	return true;
 }

@@ -17,8 +17,6 @@ export async function signupAuth(req: Request, res: Response) {
 		return;
 	}
 
-	console.log("still running...");
-
 	if (usernameTaken) {
 		res.status(400).send("username is taken by another user");
 
@@ -26,8 +24,6 @@ export async function signupAuth(req: Request, res: Response) {
 	}
 
 	try {
-		console.log("create user attempted");
-
 		const createUser = await createNewUser(
 			req.body.username,
 			req.body.password,
