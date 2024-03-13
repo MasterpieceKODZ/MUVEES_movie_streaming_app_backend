@@ -15,8 +15,9 @@ datasource db {
 
 model user {
   id Int @id @default(autoincrement())
-  username String @unique
-  password_hash String 
+  username String @unique @db.VarChar(20)
+  passwordHash String
+  salt String
   role String @default("user")
   watchHistory movie[]
 
@@ -26,15 +27,15 @@ model user {
 
 model movie {
   id Int @id @default(autoincrement())
-  title String
-  summary String
+  title String @db.VarChar(40)
+  summary String @db.VarChar(100)
   videoUrl String @unique
   coverImageUrl String @unique
   numberOfStreams Int
   genres String[]
   mainCasts String[]
-  releaseYear String
-  countryOfOrigin String
+  releaseYear String @db.VarChar(4)
+  countryOfOrigin String @db.VarChar(20)
   watchedBy user[]
 
   @@index([videoUrl])
