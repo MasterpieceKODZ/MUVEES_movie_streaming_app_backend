@@ -1,25 +1,25 @@
 import { addMovieToWatchListResolver } from "./add.movie.to.watch.list.js";
-import { moviesByCountryResolver } from "./movie.by.country.js";
-import { movieByIdResolver } from "./movie.by.id.js";
+import { getMoviesByCountryResolver } from "./movie.by.country.js";
+import { getMovieByIdResolver } from "./movie.by.id.js";
 import { movieResolver } from "./movie.js";
-import { moviesByGenreResolver } from "./movies.by.genre.js";
-import { moviesByTitleResolver } from "./movies.by.title.js";
+import { getMoviesByGenreResolver } from "./movies.by.genre.js";
+import { getMoviesByTitleResolver } from "./movies.by.title.js";
 import { removeMovieFromWatchListResolver } from "./remove.movie.from.watchlist.js";
 import { updateUserWatchHistoryResolver } from "./update.watch.history.js";
-import { userByUsernameResolver } from "./user.by.username.js";
+import { getUserByUsernameResolver } from "./user.by.username.js";
 import { userResolver } from "./user.js";
-import { userWatchHistoryResolver } from "./user.watch.history.js";
-import { userWatchListResolver } from "./user.watch.list.js";
+import { getUserWatchHistoryResolver } from "./user.watch.history.js";
+import { getUserWatchListResolver } from "./user.watch.list.js";
 
 export const resolversMap = {
 	Query: {
-		moviesByGenre: moviesByGenreResolver,
-		moviesByCountry: moviesByCountryResolver,
-		moviesByTitle: moviesByTitleResolver,
-		movieById: movieByIdResolver,
-		getUserByUsername: userByUsernameResolver,
-		userWatchHistory: userWatchHistoryResolver,
-		userWatchList: userWatchListResolver,
+		getMoviesByGenre: getMoviesByGenreResolver,
+		getMoviesByCountry: getMoviesByCountryResolver,
+		getMoviesByTitle: getMoviesByTitleResolver,
+		getMovieById: getMovieByIdResolver,
+		getUserByUsername: getUserByUsernameResolver,
+		getUserWatchHistory: getUserWatchHistoryResolver,
+		getUserWatchList: getUserWatchListResolver,
 	},
 
 	Mutation: {

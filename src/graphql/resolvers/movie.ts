@@ -33,7 +33,7 @@ export const movieResolver = {
 	},
 	async savedBy(parent: Movie) {
 		try {
-			const watchHist = await prismaClient.movie.findFirst({
+			const watchHist = await prismaClient.movies.findFirst({
 				where: {
 					id: parent.id,
 				},
@@ -52,7 +52,7 @@ export const movieResolver = {
 	},
 	async watchedBy(parent: Movie) {
 		try {
-			const watchHist = await prismaClient.movie.findFirst({
+			const watchHist = await prismaClient.movies.findFirst({
 				where: {
 					id: parent.id,
 				},

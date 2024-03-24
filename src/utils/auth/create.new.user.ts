@@ -2,7 +2,7 @@ import prismaClient from "../../client.js";
 import crypto, { pbkdf2Sync } from "crypto";
 export async function createNewUser(username: string, password: string) {
 	const passwordHashAndSalt = await hashPassword(password);
-	const createdUser = await prismaClient.user.create({
+	const createdUser = await prismaClient.users.create({
 		data: {
 			username,
 			passwordHash: passwordHashAndSalt.hashedPassword,

@@ -1,8 +1,8 @@
 import prismaClient from "../../client.js";
-export async function moviesByCountryResolver(_: any, args: any) {
+export async function getMoviesByCountryResolver(_: any, args: any) {
 	if (!args.country) return new Error("COUNTRY_NOT_FOUND");
 	try {
-		const movie = prismaClient.movie.findMany({
+		const movie = prismaClient.movies.findMany({
 			where: {
 				countryOfOrigin: args.country,
 			},
@@ -10,6 +10,6 @@ export async function moviesByCountryResolver(_: any, args: any) {
 
 		return movie;
 	} catch (error) {
-		return new Error("FAILD");
+		return new Error("FAILED");
 	}
 }

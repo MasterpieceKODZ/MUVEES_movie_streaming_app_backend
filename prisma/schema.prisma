@@ -13,20 +13,18 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model user {
+model users {
   id Int @id @default(autoincrement())
   username String @unique @db.VarChar(20)
   passwordHash String
   salt String
   role String @default("user")
-  watchList movie[] @relation("userWatchList")
-  watchHistory movie[] @relation("userWatchHistory")
-
-  @@index([username])
+  watchList movies[] @relation("userWatchList")
+  watchHistory movies[] @relation("userWatchHistory")
 
 }
 
-model movie {
+model movies {
   id Int @id @default(autoincrement())
   title String @db.VarChar(200)
   summary String @db.VarChar(500)
@@ -37,8 +35,10 @@ model movie {
   mainCasts String[]
   releaseYear String @db.VarChar(4)
   countryOfOrigin String @db.VarChar(200)
-  savedBy user[] @relation("userWatchList")
-  watchedBy user[] @relation("userWatchHistory")
+  savedBy users[] @relation("userWatchList")
+  watchedBy users[] @relation("userWatchHistory")
 
-  @@index([videoUrl])
+@@index([id])
+@@index([title])
+@@index([countryOfOrigin])
 }

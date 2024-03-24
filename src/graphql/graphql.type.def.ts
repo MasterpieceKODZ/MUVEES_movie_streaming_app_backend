@@ -2,27 +2,25 @@ export const graphqlTypeDef = `#graphql
 
 
 type Query {
-moviesByGenre(genre: String): [Movie]
-moviesByCountry(country: String): [Movie]
-moviesByTitle(title: String): [Movie]
-movieById(id: Int): Movie
-getUserByUsername(username: String): User
-userWatchHistory(username: String): [Movie]
-userWatchList(username: String): [Movie]
+getMoviesByGenre(genre: String!): [Movie]
+getMoviesByCountry(country: String!): [Movie]
+getMoviesByTitle(title: String!): [Movie]
+getMovieById(id: Int!): Movie
+getUserByUsername(username: String!): User
+getUserWatchHistory(username: String!): [Movie]
+getUserWatchList(username: String!): [Movie]
 }
 
 
 type Mutation {
-addMovieToWatchList(username: String, movieId: Int): [Movie]
-removeMovieFromWatchList(username: String, movieId: Int): [Movie]
-updateUserWatchHistory(username: String, movieId: Int): [Movie]
+addMovieToWatchList(username: String!, movieId: Int!): [Movie]
+removeMovieFromWatchList(username: String!, movieId: Int!): [Movie]
+updateUserWatchHistory(username: String!, movieId: Int!): [Movie]
 }
 
 type User {
   id: Int!
   username: String!
-  passwordHash: String!
-  salt: String!
   role: String!
   watchList: [Movie]
   watchHistory: [Movie]

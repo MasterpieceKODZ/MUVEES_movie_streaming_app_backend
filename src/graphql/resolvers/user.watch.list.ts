@@ -1,8 +1,8 @@
 import prismaClient from "../../client.js";
-export async function userWatchListResolver(_: any, args: any) {
+export async function getUserWatchListResolver(_: any, args: any) {
 	if (!args.username) return new Error("INVALID_USERNAME");
 	try {
-		const movies = await prismaClient.user.findFirst({
+		const movies = await prismaClient.users.findFirst({
 			where: {
 				username: args.username,
 			},
@@ -12,6 +12,6 @@ export async function userWatchListResolver(_: any, args: any) {
 		});
 		return movies === null || movies === void 0 ? void 0 : movies.watchList;
 	} catch (error) {
-		return new Error("FAILD");
+		return new Error("FAILED");
 	}
 }

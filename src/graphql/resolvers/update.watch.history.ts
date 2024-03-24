@@ -3,7 +3,7 @@ export async function updateUserWatchHistoryResolver(_: any, args: any) {
 	if (!args.username) return new Error("INVALID_USERNAME");
 	if (!args.movieId) return new Error("INVALID_RECORD_ID");
 	try {
-		const list = await prismaClient.user.update({
+		const list = await prismaClient.users.update({
 			where: {
 				username: args.username,
 			},

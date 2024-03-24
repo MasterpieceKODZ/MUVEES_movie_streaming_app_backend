@@ -7,18 +7,12 @@ export const userResolver = {
 	username(parent: User) {
 		return parent.username;
 	},
-	passwordHash(parent: User) {
-		return parent.passwordHash;
-	},
-	salt(parent: User) {
-		return parent.salt;
-	},
 	role(parent: User) {
 		return parent.role;
 	},
 	async watchList(parent: User) {
 		try {
-			const watchHist = await prismaClient.user.findFirst({
+			const watchHist = await prismaClient.users.findFirst({
 				where: {
 					id: parent.id,
 				},
@@ -37,7 +31,7 @@ export const userResolver = {
 	},
 	async watchHistory(parent: User) {
 		try {
-			const watchHist = await prismaClient.user.findFirst({
+			const watchHist = await prismaClient.users.findFirst({
 				where: {
 					id: parent.id,
 				},

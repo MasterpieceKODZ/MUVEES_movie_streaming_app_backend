@@ -1,8 +1,8 @@
 import prismaClient from "../../client.js";
-export async function moviesByTitleResolver(_: any, args: any) {
+export async function getMoviesByTitleResolver(_: any, args: any) {
 	if (!args.title) return new Error("TITLE_NOT_FOUND");
 	try {
-		const movies = await prismaClient.movie.findMany({
+		const movies = await prismaClient.movies.findMany({
 			where: {
 				title: {
 					contains: args.title,
