@@ -1,0 +1,10 @@
+import e from "express";
+import multer from "multer";
+import { fileExistsCheck } from "./check.file.exists.js";
+import { uploadVideo } from "./upload.video.js";
+const fileUploadRouter = e.Router();
+const upload = multer();
+fileUploadRouter.use(upload.single("file"));
+fileUploadRouter.use(fileExistsCheck);
+fileUploadRouter.post("/file-upload", uploadVideo);
+export default fileUploadRouter;

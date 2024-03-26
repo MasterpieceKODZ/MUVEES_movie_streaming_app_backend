@@ -1,8 +1,11 @@
 import { PrismaClient } from "@prisma/client";
+const prismaClient = new PrismaClient();
 
-
-const prismaClient = new PrismaClient;
-
-await prismaClient.$connect();
+try {
+	await prismaClient.$connect();
+} catch (error) {
+	console.log(error);
+	process.exit(1);
+}
 
 export default prismaClient;

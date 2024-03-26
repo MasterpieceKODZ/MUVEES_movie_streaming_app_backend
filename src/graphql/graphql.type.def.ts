@@ -2,14 +2,27 @@ export const graphqlTypeDef = `#graphql
 
 
 type Query {
-  moviesByGenre(genre: String): [Movie]
+getMoviesByGenre(genre: String!): [Movie]
+getMoviesByCountry(country: String!): [Movie]
+getMoviesByTitle(title: String!): [Movie]
+getMovieById(id: Int!): Movie
+getUserByUsername(username: String!): User
+getUserWatchHistory(username: String!): [Movie]
+getUserWatchList(username: String!): [Movie]
+}
+
+
+type Mutation {
+addMovieToWatchList(username: String!, movieId: Int!): [Movie]
+removeMovieFromWatchList(username: String!, movieId: Int!): [Movie]
+updateUserWatchHistory(username: String!, movieId: Int!): [Movie]
 }
 
 type User {
   id: Int!
   username: String!
-  password_hash: String! 
   role: String!
+  watchList: [Movie]
   watchHistory: [Movie]
 
 }
@@ -25,6 +38,7 @@ type Movie {
   mainCasts: [String]
   releaseYear: String
   countryOfOrigin: String
+  savedBy: [User]
   watchedBy: [User]
 
 }
