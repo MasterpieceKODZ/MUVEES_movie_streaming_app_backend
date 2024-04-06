@@ -1,4 +1,6 @@
 import { addMovieToWatchListResolver } from "./add.movie.to.watch.list.js";
+import { isMovieOnUserWatchListResolver } from "./is.movie.on.user.watchlist.js";
+// import { addNewMovieResolver } from "./add.new.movie.js";
 import { getMoviesByCountryResolver } from "./movie.by.country.js";
 import { getMovieByIdResolver } from "./movie.by.id.js";
 import { movieResolver } from "./movie.js";
@@ -19,11 +21,13 @@ export const resolversMap = {
         getUserByUsername: getUserByUsernameResolver,
         getUserWatchHistory: getUserWatchHistoryResolver,
         getUserWatchList: getUserWatchListResolver,
+        isMovieOnUserWatchList: isMovieOnUserWatchListResolver,
     },
     Mutation: {
         addMovieToWatchList: addMovieToWatchListResolver,
         removeMovieFromWatchList: removeMovieFromWatchListResolver,
         updateUserWatchHistory: updateUserWatchHistoryResolver,
+        // addNewMovie: addNewMovieResolver,
     },
     User: userResolver,
     Movie: movieResolver,

@@ -15,13 +15,14 @@ const apolloServer = new ApolloServer({
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
 });
 await apolloServer.start();
+app.get("/", async (req, res) => {
+    res.send("MUVEES BACKEND REACHED SUCCESSFULLY");
+});
 // AUTHENTICATION
 app.use("/auth", authRouter);
 // GRAPH-QL
-app.use("/graphql", (req, res, next) => {
-    next();
-}, expressMiddleware(apolloServer));
-// START SERVER
-httpServer.listen(4055, () => {
-    console.log("muvees backend listening on port 4055");
+app.use("/graphql", expressMiddleware(apolloServer));
+app.listen(4055, () => {
+    console.log("muvees backend running on port 4055");
 });
+// export const handler = serverless(app);

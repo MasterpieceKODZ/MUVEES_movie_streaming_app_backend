@@ -9,6 +9,7 @@ getMovieById(id: Int!): Movie
 getUserByUsername(username: String!): User
 getUserWatchHistory(username: String!): [Movie]
 getUserWatchList(username: String!): [Movie]
+isMovieOnUserWatchList(username: String!, movieId: Int!): Boolean
 }
 
 
@@ -40,6 +41,5 @@ type Movie {
   countryOfOrigin: String
   savedBy: [User]
   watchedBy: [User]
-
 }
 `;

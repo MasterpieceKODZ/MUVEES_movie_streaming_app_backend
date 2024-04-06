@@ -1,12 +1,13 @@
+import prismaClient from "./client.js";
 import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@apollo/server/express4";
-import e from "express";
+import e, { Request, Response } from "express";
 import { createServer } from "http";
 import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
 import { graphqlTypeDef } from "./graphql/graphql.type.def.js";
 import { resolversMap } from "./graphql/resolvers/resolvers.map.js";
 import authRouter from "./rest_endpoints/auth/router.js";
-import prismaClient from "./client.js";
+import serverless from "serverless-http";
 const app = e();
 app.use(e.json());
 const httpServer = createServer(app);
@@ -16,18 +17,17 @@ const apolloServer = new ApolloServer({
 	plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
 });
 await apolloServer.start();
+
+app.get("/", async (req: Request, res: Response) => {
+	res.send("MUVEES BACKEND REACHED SUCCESSFULLY");
+});
 // AUTHENTICATION
 app.use("/auth", authRouter);
 // GRAPH-QL
-app.use(
-	"/graphql",
-	(req, res, next) => {
-		next();
-	},
-	expressMiddleware(apolloServer),
-);
+app.use("/graphql", expressMiddleware(apolloServer));
 
-// START SERVER
-httpServer.listen(4055, () => {
-	console.log("muvees backend listening on port 4055");
-});
+// app.listen(4055, () => {
+// 	console.log("muvees backend running on port 4055");
+// });
+
+export const handler = serverless(app);

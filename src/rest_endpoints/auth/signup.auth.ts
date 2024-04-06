@@ -22,8 +22,7 @@ export async function signupAuth(req: Request, res: Response) {
 			req.body.username,
 			req.body.password,
 		);
-		console.log("created-user");
-		console.log(createUser);
+
 		res.send(
 			JSON.stringify({ username: createUser.username, role: createUser.role }),
 		);
